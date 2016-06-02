@@ -2,7 +2,7 @@
 angular
     .module('tippkick-planer-app')
     .component('tournamentLoginGoogle', {
-            template: '<button type="button" ng-click="$ctrl.login()">Login</button>',
+            template: '<a href="#" ng-click="$ctrl.login()"><img src="/img/web/1x/btn_google+_signin_dark_normal_web.png" /></a>',
             controller: ['firebase', '$scope', function(firebase, $scope) {
                 var provider = new firebase.auth.GoogleAuthProvider();
                 provider.addScope('https://www.googleapis.com/auth/plus.login');

@@ -6,6 +6,8 @@ angular
         controller: ['$rootScope', '$attrs', 'firebase', '$location', function ($rootScope, $attrs, firebase, $location) {
             var that = this;
 
+            that.tournamentId = $attrs.tournamentId;
+
             var key = '/tournaments/' + $attrs.tournamentId
                 + '/groups/' + $attrs.groupId
                 + '/matches/' + $attrs.matchId;
@@ -16,6 +18,16 @@ angular
                 that.match = match.val();
                 $rootScope.safeApply();
             });
+
+            this.addGoal = function(player) {
+                player.goals++;
+            };
+            this.removeGoal = function(player) {
+                if (player.goals < 1) {
+                    return;
+                }
+                player.goals--;
+            };
 
             this.captureResult = function() {
                 that.match.played = true;

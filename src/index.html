@@ -10,11 +10,9 @@
     </head>
     <body>
 
+        <tournament-header></tournament-header>
         <div ng-view></div>
-
-        <hr />
-        <tournament-logout></tournament-logout>
-        <a href="#!/home">Startseite</a>
+        <tournament-footer></tournament-footer>
 
         <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
         <script src="vendor/angular/angular.js"></script>
@@ -31,6 +29,9 @@
         <script src="js/components/tournament-edit.js"></script>
         <script src="js/components/tournament-overview.js"></script>
         <script src="js/components/tournament-match-capture.js"></script>
+        <script src="js/components/tournament-header.js"></script>
+        <script src="js/components/tournament-about.js"></script>
+        <script src="js/components/tournament-footer.js"></script>
 
         <script src="js/components/login/tournament-login.js"></script>
         <script src="js/components/login/tournament-login-create.js"></script>

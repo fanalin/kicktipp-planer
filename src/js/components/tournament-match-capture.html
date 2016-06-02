@@ -1,8 +1,26 @@
-<h2>Spiel</h2>
-<p>Heim: {{ $ctrl.match.home.name }}</p>
-<p>Gast: {{ $ctrl.match.away.name }}</p>
+<h2>Spielergebnis erfassen</h2>
 
-<label>Tore Heim: <input type="number" ng-model="$ctrl.match.home.goals" /></label>
-<label>Tore Gast: <input type="number" ng-model="$ctrl.match.away.goals" /></label>
+<div class="players">
+    <div>
+        <span class="name">{{ $ctrl.match.home.name }}</span>
+        <span class="score">{{ $ctrl.match.home.goals }}</span>
+        <div class="buttons">
+            <button type="button" ng-click="$ctrl.addGoal($ctrl.match.home)" class="add">+</button>
+            <button type="button" ng-click="$ctrl.removeGoal($ctrl.match.home)" class="remove">-</button>
+        </div>
+    </div>
 
-<button type="button" ng-click="$ctrl.captureResult()">Ergebnis erfassen</button>
+    <div>
+        <span class="name">{{ $ctrl.match.away.name }}</span>
+        <span class="score">{{ $ctrl.match.away.goals }}</span>
+        <div class="buttons">
+            <button type="button" ng-click="$ctrl.addGoal($ctrl.match.away)" class="add">+</button>
+            <button type="button" ng-click="$ctrl.removeGoal($ctrl.match.away)" class="remove">-</button>
+        </div>
+    </div>
+</div>
+
+<div class="match-nav">
+    <a href="#!/tournament/{{$ctrl.tournamentId}}">Turnierübersicht</a>
+    <button type="button" ng-click="$ctrl.captureResult()">Ergebnis erfassen</button>
+</div>

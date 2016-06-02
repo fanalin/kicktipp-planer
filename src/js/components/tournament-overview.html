@@ -1,4 +1,4 @@
-<h2>{{$ctrl.tournament.details.name}}</h2>
+<h2>{{$ctrl.tournament.name}}</h2>
 
 <ul class="tournaments">
     <li ng-repeat="group in $ctrl.tournament.groups">
@@ -19,7 +19,7 @@
                 </tr>
             </tbody>
         </table>
-        <h4>Spiele</h4>
+        <h3>Spiele</h3>
         <table>
             <thead>
                 <tr>
@@ -42,4 +42,4 @@
     </li>
 </ul>
 
-<a href="#!/tournament/{{ $ctrl.tournament.id }}/edit">Turnier bearbeiten</a>
+<a href="#!/tournament/{{ $ctrl.tournament.id }}/edit" class="edit-tournament">Turnier bearbeiten</a>

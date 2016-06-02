@@ -1,4 +1,10 @@
-<label>eMail: <input type="email" ng-model="$ctrl.eMail" required="required" /></label>
-<label>Passwort: <input type="password" ng-model="$ctrl.userPassword" required="required" pattern=".{6,}"/></label>
+<label>
+    <span>eMail:</span>
+    <input type="email" ng-model="$ctrl.eMail" required="required" />
+</label>
+<label>
+    <span>Passwort:</span>
+    <input type="password" ng-model="$ctrl.userPassword" required="required" pattern=".{6,}"/>
+</label>
 
 <button type="button" ng-click="$ctrl.loginWithPassword()">Login</button>

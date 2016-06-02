@@ -8,6 +8,12 @@ angular.module('tippkick-planer-app', [ 'ngRoute' ])
             when('/login', {
                 template: '<tournament-login></tournament-login>'
             }).
+            when('/about', {
+                template: '<tournament-about></tournament-about>'
+            }).
+            when('/create-account', {
+                template: '<tournament-login-create></tournament-login-create>'
+            }).
             when('/home', {
                 template: '<tournament-selector></tournament-selector>'
             }).
@@ -35,6 +41,7 @@ angular.module('tippkick-planer-app', [ 'ngRoute' ])
             } else {
                 $location.path('/login');
             }
+            $rootScope.safeApply();
         });
 
         $rootScope.safeApply = function(fn) {

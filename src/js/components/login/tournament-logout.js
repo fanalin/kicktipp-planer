@@ -8,7 +8,6 @@ angular
                 this.logout = function() {
                     firebase.auth().signOut()
                         .then(function() {
-                            console.log('logged out');
                             $scope.$apply();
                         })
                         .catch(function(err) {
