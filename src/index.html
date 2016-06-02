@@ -1,0 +1,41 @@
+<!doctype html>
+<html class="no-js" lang="de" ng-app="tippkick-planer-app">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>TippKick - Turnierplaner</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+
+        <div ng-view></div>
+
+        <hr />
+        <tournament-logout></tournament-logout>
+        <a href="#!/home">Startseite</a>
+
+        <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+        <script src="vendor/angular/angular.js"></script>
+        <script src="vendor/angular-route/angular-route.min.js"></script>
+        <script src="js/plugins.js"></script>
+
+        <script src="js/main.js"></script>
+        <script src="js/firebase-config.js"></script>
+
+
+        <script src="js/services/TournamentService.js"></script>
+
+        <script src="js/components/tournament-selector.js"></script>
+        <script src="js/components/tournament-edit.js"></script>
+        <script src="js/components/tournament-overview.js"></script>
+        <script src="js/components/tournament-match-capture.js"></script>
+
+        <script src="js/components/login/tournament-login.js"></script>
+        <script src="js/components/login/tournament-login-create.js"></script>
+        <script src="js/components/login/tournament-login-email.js"></script>
+        <script src="js/components/login/tournament-login-google.js"></script>
+        <script src="js/components/login/tournament-logout.js"></script>
+    </body>
+</html>

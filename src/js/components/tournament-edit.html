@@ -1,0 +1,31 @@
+<h2 ng-show="! $ctrl.tournament.id">Neues Turnier anlegen</h2>
+<h2 ng-show="$ctrl.tournament.id">Turnier bearbeiten</h2>
+
+<p ng-show="$ctrl.tournament.id">Durch Bearbeiten des Turniers gehen alle Ergebnisse verloren!</p>
+<label>
+    Turniername:
+    <input type="text" ng-model="$ctrl.tournament.name" placeholder="Europameisterschaft 2016" />
+</label>
+<ul>
+    <li ng-repeat="group in $ctrl.tournament.groups">
+        <label>
+            Gruppenname:
+            <input type="text" ng-model="group.name" placeholder="Gruppenname" />
+        </label>
+        <h3>Spieler</h3>
+        <ul>
+            <li ng-repeat="player in group.players">
+                <label>
+                    Spielername:
+                    <input type="text" required ng-model="player.name" placeholder="Spielername" />
+                </label>
+                <button type="button" ng-click="player.remove()">Spieler entfernen</button>
+            </li>
+        </ul>
+        <button type="button" ng-click="group.addPlayer()">Spieler hinzufügen</button>
+        <button type="button" ng-click="group.remove()">Gruppe entfernen</button>
+    </li>
+</ul>
+
+<button type="button" ng-click="$ctrl.tournament.addGroup()">Gruppe hinzufügen</button>
+<button type="button" ng-click="$ctrl.save()">Speichern</button>

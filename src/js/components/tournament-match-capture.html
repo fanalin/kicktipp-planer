@@ -1,0 +1,8 @@
+<h2>Spiel</h2>
+<p>Heim: {{ $ctrl.match.home.name }}</p>
+<p>Gast: {{ $ctrl.match.away.name }}</p>
+
+<label>Tore Heim: <input type="number" ng-model="$ctrl.match.home.goals" /></label>
+<label>Tore Gast: <input type="number" ng-model="$ctrl.match.away.goals" /></label>
+
+<button type="button" ng-click="$ctrl.captureResult()">Ergebnis erfassen</button>

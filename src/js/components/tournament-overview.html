@@ -1,0 +1,45 @@
+<h2>{{$ctrl.tournament.details.name}}</h2>
+
+<ul class="tournaments">
+    <li ng-repeat="group in $ctrl.tournament.groups">
+        <h3>{{ group.name }}</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Spieler</th>
+                    <th>Punkte</th>
+                    <th>Tore</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="player in group.players">
+                    <td>{{ player.name }}</td>
+                    <td>{{ player.points }}</td>
+                    <td>{{ player.goals }} : {{ player.goalsAgainst}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Spiele</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Heim</th>
+                    <th>Gast</th>
+                    <th>Ergebnis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="match in group.matches">
+                    <td>{{ match.home.name }}</td>
+                    <td>{{ match.away.name }}</td>
+                    <td ng-if="match.played">{{ match.home.goals }} : {{ match.away.goals }}</td>
+                    <td ng-if="! match.played">
+                        <a href="#!/tournament/{{ $ctrl.tournament.id }}/capture-match/{{ group.id }}/{{ match.id }}">Spielen!</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </li>
+</ul>
+
+<a href="#!/tournament/{{ $ctrl.tournament.id }}/edit">Turnier bearbeiten</a>
