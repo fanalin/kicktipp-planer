@@ -1,0 +1,198 @@
+
+$enable-flex: true;
+
+@import "../vendor/bootstrap/scss/bootstrap.scss";
+
+button {
+    @extend .btn;
+    @extend .btn-primary;
+}
+
+body > div[ng-view] {
+    @include make-container();
+
+    margin: 20px;
+}
+
+tournament-login {
+    width: 350px;
+    margin: auto;
+
+    tournament-login-google {
+        max-width: 200px;
+        margin-top: 20px;
+    }
+}
+
+tournament-login-email, tournament-login-create {
+
+    label {
+        @extend .input-group;
+
+        input {
+            @extend .form-control;
+            max-width: 200px;
+        }
+
+        span {
+
+            width: 100px;
+            @extend .input-group-addon;
+        }
+    }
+
+    button {
+        max-width: 300px;
+        @extend .btn-block;
+    }
+
+}
+
+tournament-login-google {
+    text-align: center;
+}
+
+tournament-header {
+    nav {
+        @extend .navbar;
+        @extend .navbar-dark;
+        @extend .bg-primary;
+
+        a.brand {
+            @extend .navbar-brand;
+        }
+
+        ul {
+            @extend .nav;
+            @extend .navbar-nav;
+        }
+
+        li {
+            @extend .nav-item;
+            a {
+                @extend .nav-link;
+            }
+        }
+
+        tournament-logout {
+            display: inline;
+            float: right;
+        }
+    }
+}
+
+tournament-selector {
+    a.new-tournament {
+        @extend .btn;
+        @extend .btn-success;
+
+        @include pull-right;
+    }
+
+    ul {
+        @extend .list-group;
+        margin-bottom: 10px;
+
+        li {
+            list-style-type: none;
+        }
+
+        a {
+            display: block;
+            @extend .list-group-item;
+        }
+    }
+}
+
+tournament-overview {
+
+
+    a.edit-tournament {
+        @extend .btn;
+        @extend .btn-warning;
+
+        @include pull-right;
+    }
+
+    ul {
+        @include make-row();
+
+        padding-left: 0;
+        li {
+            list-style-type: none;
+            padding: 20px;
+            border: 1px solid lightgrey;
+            border-radius: 10px;
+            margin: 5px;
+        }
+    }
+
+    table {
+        @extend .table;
+        @extend .table-striped;
+        @extend .table-hover;
+
+        @include make-col-span(3);
+    }
+}
+
+tournament-match-capture {
+
+    h2 {
+        @include make-row();
+    }
+
+    div.players {
+        @include make-row();
+        text-align: center;
+        & > div {
+            @include make-col-span(4);
+
+            border: 1px solid lightgray;
+            border-radius: 10px;
+            margin-right: 10px;
+            padding: 10px;
+
+            span {
+                text-align: center;
+                font-size: 1em;
+                display: block;
+                width: 100%;
+            }
+
+            .buttons {
+                text-align: center;
+                button.add {
+                    @extend .btn-lg;
+                    @extend .btn-success;
+
+                    margin-right: 20px;
+                }
+
+                button.remove {
+                    @extend .btn-lg;
+                    @extend .btn-danger;
+                }
+            }
+        }
+    }
+
+
+    .match-nav {
+        @include make-row();
+        margin-top: 30px;
+        text-align: center;
+        a, button {
+            @include make-col-span(4);
+            @extend .btn;
+            margin: 10px;
+        }
+        a {
+            @extend .btn-info;
+        }
+
+        button {
+            @extend .btn-warning;
+        }
+    }
+}
