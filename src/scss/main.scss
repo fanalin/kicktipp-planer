@@ -163,6 +163,10 @@ tournament-match-capture {
                 width: 100%;
             }
 
+            .name {
+                white-space: nowrap;
+            }
+
             .buttons {
                 text-align: center;
                 button.add {

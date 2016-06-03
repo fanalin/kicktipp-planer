@@ -1,5 +1,12 @@
 <h2>Spielergebnis erfassen</h2>
 
+<div class="clock" ng-show="!!$ctrl.match.matchData.played">
+    <span ng-show="$ctrl.timerActive">{{ $ctrl.remainingTime }}</span>
+    <span ng-show="$ctrl.isHalftime">Halbzeit</span>
+    <span ng-show="$ctrl.isEndResult">Endergebnis</span>
+
+</div>
+
 <div class="players">
     <div>
         <span class="name">{{ $ctrl.match.matchData.home.name }}</span>
@@ -22,11 +29,20 @@
 
 <div class="match-nav">
     <button type="button"
-            ng-click="$ctrl.match.startMatch()"
-            ng-hide="!! $ctrl.match.matchData.played"
+            ng-click="$ctrl.startMatch()"
+            ng-show="!$ctrl.match.matchData.played"
     >Spielstart</button>
+
+    <button type="button"
+            ng-click="$ctrl.startSecondHalf()"
+            ng-show="$ctrl.isHalftime && $ctrl.currentHalf == 1"
+    >2. Halbzeit starten</button>
+
     <button type="button" ng-click="$ctrl.match.finishMatch()"
-            ng-show="$ctrl.match.matchData.played == 'live'"
+            ng-show="$ctrl.isEndResult && $ctrl.match.matchData.played == 'live'"
     >Spielende</button>
-    <a href="#!/tournament/{{$ctrl.tournamentId}}">Turnierübersicht</a>
+
+    <a
+        ng-show="(! $ctrl.match.matchData.played) || ($ctrl.match.matchData.played == 'finished')"
+        href="#!/tournament/{{$ctrl.tournamentId}}">Turnierübersicht</a>
 </div>

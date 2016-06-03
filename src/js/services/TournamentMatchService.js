@@ -15,12 +15,12 @@
             + '/groups/' + groupId
             + '/matches/' + matchId;
 
-        firebase.database().ref(matchKey).on('value', function(snapshot) {
-            that.matchData = snapshot.val();
-        });
+            firebase.database().ref(matchKey).on('value', function(snapshot) {
+                that.matchData = snapshot.val();
+            });
 
-        this.startMatch = function() {
-            // don't start match if it already began ('live') or is even finished ('finished')
+            this.startMatch = function() {
+                // don't start match if it already began ('live') or is even finished ('finished')
             if (!! that.matchData.played) {
                 return;
             }
@@ -72,6 +72,7 @@
             playerRef.once('value', function (playerSnapshot) {
                 var player = playerSnapshot.val();
                 addToPlayer(player, goalsScored, goalsAgainst);
+                playerRef.set(player);
             });
         }
 
