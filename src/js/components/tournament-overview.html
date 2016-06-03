@@ -32,7 +32,9 @@
                 <tr ng-repeat="match in group.matches">
                     <td>{{ match.home.name }}</td>
                     <td>{{ match.away.name }}</td>
-                    <td ng-if="match.played">{{ match.home.goals }} : {{ match.away.goals }}</td>
+                    <td ng-if="!!match.played"
+                        ng-class="{ live : match.played == 'live' }"
+                    >{{ match.home.goals }} : {{ match.away.goals }}</td>
                     <td ng-if="! match.played">
                         <a href="#!/tournament/{{ $ctrl.tournament.id }}/capture-match/{{ group.id }}/{{ match.id }}">Spielen!</a>
                     </td>

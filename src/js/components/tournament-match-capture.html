@@ -2,25 +2,31 @@
 
 <div class="players">
     <div>
-        <span class="name">{{ $ctrl.match.home.name }}</span>
-        <span class="score">{{ $ctrl.match.home.goals }}</span>
-        <div class="buttons">
-            <button type="button" ng-click="$ctrl.addGoal($ctrl.match.home)" class="add">+</button>
-            <button type="button" ng-click="$ctrl.removeGoal($ctrl.match.home)" class="remove">-</button>
+        <span class="name">{{ $ctrl.match.matchData.home.name }}</span>
+        <span class="score">{{ $ctrl.match.matchData.home.goals }}</span>
+        <div class="buttons" ng-hide="$ctrl.match.matchData.played != 'live'">
+            <button type="button" ng-click="$ctrl.match.addGoalToHome()" class="add">+</button>
+            <button type="button" ng-click="$ctrl.match.removeGoalFromHome()" class="remove">-</button>
         </div>
     </div>
 
     <div>
-        <span class="name">{{ $ctrl.match.away.name }}</span>
-        <span class="score">{{ $ctrl.match.away.goals }}</span>
-        <div class="buttons">
-            <button type="button" ng-click="$ctrl.addGoal($ctrl.match.away)" class="add">+</button>
-            <button type="button" ng-click="$ctrl.removeGoal($ctrl.match.away)" class="remove">-</button>
+        <span class="name">{{ $ctrl.match.matchData.away.name }}</span>
+        <span class="score">{{ $ctrl.match.matchData.away.goals }}</span>
+        <div class="buttons" ng-hide="$ctrl.match.matchData.played != 'live'">
+            <button type="button" ng-click="$ctrl.match.addGoalToAway()" class="add">+</button>
+            <button type="button" ng-click="$ctrl.match.removeGoalFromAway()" class="remove">-</button>
         </div>
     </div>
 </div>
 
 <div class="match-nav">
+    <button type="button"
+            ng-click="$ctrl.match.startMatch()"
+            ng-hide="!! $ctrl.match.matchData.played"
+    >Spielstart</button>
+    <button type="button" ng-click="$ctrl.match.finishMatch()"
+            ng-show="$ctrl.match.matchData.played == 'live'"
+    >Spielende</button>
     <a href="#!/tournament/{{$ctrl.tournamentId}}">Turnierübersicht</a>
-    <button type="button" ng-click="$ctrl.captureResult()">Ergebnis erfassen</button>
 </div>
