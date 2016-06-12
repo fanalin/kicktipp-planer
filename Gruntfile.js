@@ -14,7 +14,8 @@ module.exports = function (grunt) {
         sass: {
             dist: {
                 options: {
-                    loadPath: 'src/vendor/bootstrap/scss'
+                    loadPath: 'src/vendor/bootstrap/scss',
+                    cacheLocation : '/tmp/.sass-cache'
                 },
                 files: {
                     'src/css/main.css': 'src/scss/main.scss'
