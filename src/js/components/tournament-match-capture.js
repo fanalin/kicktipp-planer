@@ -7,7 +7,7 @@ angular
             function ($attrs, tournamentMatchRepository, $location, $interval) {
             var that = this;
 
-            var halftimeLength = 5;
+            var halftimeLength = 300;
 
             that.tournamentId = $attrs.tournamentId;
             that.remainingTime = halftimeLength;
