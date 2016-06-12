@@ -6,15 +6,19 @@
         <table>
             <thead>
                 <tr>
+                    <th>Pos</th>
                     <th>Spieler</th>
                     <th>Punkte</th>
+                    <th>TD</th>
                     <th>Tore</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="player in group.players">
+                <tr ng-repeat="player in group.players | orderObjectBy: 'rank'">
+                    <td>{{ player.rank }}</td>
                     <td>{{ player.name }}</td>
                     <td>{{ player.points }}</td>
+                    <td>{{ player.goalDiff }}</td>
                     <td>{{ player.goals }} : {{ player.goalsAgainst}}</td>
                 </tr>
             </tbody>

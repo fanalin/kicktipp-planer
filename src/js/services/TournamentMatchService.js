@@ -15,12 +15,12 @@
             + '/groups/' + groupId
             + '/matches/' + matchId;
 
-            firebase.database().ref(matchKey).on('value', function(snapshot) {
-                that.matchData = snapshot.val();
-            });
+        firebase.database().ref(matchKey).on('value', function(snapshot) {
+            that.matchData = snapshot.val();
+        });
 
-            this.startMatch = function() {
-                // don't start match if it already began ('live') or is even finished ('finished')
+        this.startMatch = function() {
+            // don't start match if it already began ('live') or is even finished ('finished')
             if (!! that.matchData.played) {
                 return;
             }
@@ -79,6 +79,40 @@
         function recalculateStandings() {
             updatePlayer(that.matchData.home.id, that.matchData.home.goals, that.matchData.away.goals);
             updatePlayer(that.matchData.away.id, that.matchData.away.goals, that.matchData.home.goals);
+
+            var playersRef = firebase
+                .database()
+                .ref('/tournaments/' + tournamentId + '/groups/' + groupId + '/players/');
+
+            playersRef.once('value', updateRanking);
+
+            function updateRanking(playersSnapshots) {
+                var players = [];
+                angular.forEach(playersSnapshots.val(), function(p) {
+                    players.push(p);
+                });
+                players.sort(playerComparator);
+                var i = 0;
+                angular.forEach(players, function (player) {
+                    firebase
+                        .database()
+                        .ref('/tournaments/' + tournamentId + '/groups/' + groupId + '/players/' + player.id + '/rank')
+                        .set(++i);
+
+                });
+            }
+        }
+
+        function playerComparator(player1, player2) {
+            var pointsDiff = player1.points - player2.points;
+            if (pointsDiff != 0) {
+                return -1 * pointsDiff;
+            }
+            var goalsDiffDiff = player1.goalDiff - player2.goalDiff;
+            if (goalsDiffDiff != 0) {
+                return -1 * goalsDiffDiff;
+            }
+            return player1.goals < player2.goals;
         }
     }
 
