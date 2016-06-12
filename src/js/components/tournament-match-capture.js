@@ -34,7 +34,7 @@ angular
                 that.currentHalf = 2;
 
                 startTimer();
-            }
+            };
 
             function startTimer() {
                 that.isHalftime = false;
