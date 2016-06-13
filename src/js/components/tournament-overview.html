@@ -49,5 +49,6 @@
 </div>
 
 <div class="page-actions">
-    <a href="#!/tournament/{{ $ctrl.tournament.id }}/edit">Turnier bearbeiten</a>
+    <a href="#!/tournament/{{ $ctrl.tournament.id }}/edit"
+       ng-show="$ctrl.currentUser.userInfo.tournamentAdmin">Turnier bearbeiten</a>
 </div>
