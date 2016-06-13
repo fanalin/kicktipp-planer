@@ -15,7 +15,8 @@
             + '/groups/' + groupId
             + '/matches/' + matchId;
 
-        firebase.database().ref(matchKey).on('value', function(snapshot) {
+        var matchRef = firebase.database().ref(matchKey);
+        matchRef.on('value', function(snapshot) {
             that.matchData = snapshot.val();
         });
 
@@ -27,24 +28,64 @@
             firebase.database().ref(matchKey + '/played').set('live');
         };
 
+        function addTickerEntry(time, type) {
+            var entry = {
+                type: type,
+                time : time
+            };
+            var tickerKey = firebase.database().ref(matchKey).child('ticker').push().key;
+            entry.id = tickerKey;
+            firebase.database().ref(matchKey + '/ticker/' + tickerKey).set(entry);
+        }
+
+        function removeLastTickerEntryOfType(type) {
+            var entries = [];
+            angular.forEach(that.matchData.ticker, function(entry) {
+                if (entry.type != type) {
+                    return;
+                }
+
+                entries.push(entry);
+            });
+
+            entries.sort(function(e1, e2) {
+               return e1.time - e2.time;
+            });
+
+            var toRemove = entries.pop();
+            firebase.database().ref(matchKey + '/ticker/' + toRemove.id).remove();
+        }
+
         this.finishMatch = function() {
             firebase.database().ref(matchKey + '/played').set('finished');
+            matchRef.off();
             recalculateStandings();
         };
-        this.addGoalToHome = function() {
+
+        this.addGoalToHome = function(time) {
             var newGoalAmount = that.matchData.home.goals + 1;
             firebase.database().ref(matchKey + '/home/goals').set(newGoalAmount);
+
+            addTickerEntry(time, 'goal-home');
         };
-        this.addGoalToAway = function() {
+
+        this.addGoalToAway = function(time) {
             var newGoalAmount = that.matchData.away.goals + 1;
             firebase.database().ref(matchKey + '/away/goals').set(newGoalAmount);
+
+            addTickerEntry(time, 'goal-away');
         };
+
         this.removeGoalFromHome = function() {
             var newGoalAmount = that.matchData.home.goals - 1;
             if (newGoalAmount < 0) {
                 return;
             }
+
             firebase.database().ref(matchKey + '/home/goals').set(newGoalAmount);
+
+            // remove ticker entry for last foal from home player
+            removeLastTickerEntryOfType('goal-home');
         };
         this.removeGoalFromAway = function() {
             var newGoalAmount = that.matchData.away.goals - 1;
@@ -52,6 +93,9 @@
                 return;
             }
             firebase.database().ref(matchKey + '/away/goals').set(newGoalAmount);
+
+            // remove ticker entry for last foal from away player
+            removeLastTickerEntryOfType('goal-away');
         };
 
         function addToPlayer(player, goalsScored, goalsAgainst) {

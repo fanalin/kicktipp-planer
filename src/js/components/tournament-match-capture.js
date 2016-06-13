@@ -30,6 +30,10 @@ angular
                 startTimer();
             };
 
+            that.getCurrentTime = function() {
+                return (halftimeLength - that.remainingTime) + ((that.currentHalf - 1) * halftimeLength);
+            };
+
             that.startSecondHalf = function() {
                 that.currentHalf = 2;
 
