@@ -1,13 +1,21 @@
 module.exports = function (grunt) {
 
+    var now = Date.now();
     grunt.initConfig({
         connect: {
-            server: {
+            dev: {
                 options: {
                     hostname: '10.0.2.15',
                     port: 3000,
-                    base: 'src',
-                    livereload: false
+                    base: 'src'
+                }
+            },
+            build: {
+                options: {
+                    hostname: '10.0.2.15',
+                    port: 3000,
+                    base: 'dist/src',
+                    keepalive : true
                 }
             }
         },
@@ -54,16 +62,27 @@ module.exports = function (grunt) {
                         src: ['src/img/**'],
                         dest: 'dist/'
                     },
+                    {
+                        expand: true,
+                        src: ['src/js/**/*.html'],
+                        dest: 'dist/'
+                    },
                 ]
             }
         },
         exec: {
-            clean: 'rm -rf dist'
+            clean: 'rm -rf dist .build-cache'
         },
         concat: {
             buildjs: {
-                src: [ 'src/js/**/*.js' ],
-                dest: '.build-cache/jscache//build.js'
+                files: {
+                    '.build-cache/jscache/build.js': [
+                        'src/vendor/angular/angular.min.js',
+                        'src/vendor/angular-route/angular-route.min.js',
+                        'src/js/main.js',
+                        'src/js/**/*.js'
+                    ]
+                }
             }
         },
         processhtml: {
@@ -91,6 +110,9 @@ module.exports = function (grunt) {
                     }, {
                         pattern: /storageBucket: "[^"]+"/,
                         replacement: 'storageBucket: "tippkick-planer.appspot.com"'
+                    }, {
+                        pattern: /sourceMappingURL=.*map/g,
+                        replacement: ''
                     }
                     ]
                 }
@@ -108,8 +130,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-string-replace');
 
-    grunt.registerTask('default', ['connect', 'watch:css']);
-    grunt.registerTask('build', ['exec:clean', 'copy:build', 'sass:build', 'build-js']);
+    grunt.registerTask('default', ['connect:dev', 'watch:css']);
+    grunt.registerTask('build', ['exec:clean', 'copy:build', 'sass:build', 'build-js', 'processhtml:build']);
 
     grunt.registerTask('build-js', ['concat:buildjs', 'string-replace:buildjs']);
 };

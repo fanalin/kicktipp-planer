@@ -42,7 +42,7 @@
                         </span>
 
                         <a href="#!/tournament/{{ $ctrl.tournament.id }}/ticker/{{ group.id }}/{{ match.id }}"
-                            ng-show="match.played"
+                            ng-show="match.played && currentUser.showTicker"
                         >Ticker!</a>
 
                         <a href="#!/tournament/{{ $ctrl.tournament.id }}/capture-match/{{ group.id }}/{{ match.id }}"
