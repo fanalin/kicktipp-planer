@@ -40,7 +40,10 @@
                         ng-class="{ live : match.played == 'live' }"
                     >{{ match.home.goals }} : {{ match.away.goals }}</td>
                     <td ng-if="! match.played">
-                        <a href="#!/tournament/{{ $ctrl.tournament.id }}/capture-match/{{ group.id }}/{{ match.id }}">Spielen!</a>
+                        <a
+                            href="#!/tournament/{{ $ctrl.tournament.id }}/capture-match/{{ group.id }}/{{ match.id }}"
+                            ng-show="$ctrl.currentUser.userInfo.referee"
+                        >Spielen!</a>
                     </td>
                 </tr>
             </tbody>
