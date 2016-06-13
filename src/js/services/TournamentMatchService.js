@@ -112,7 +112,7 @@
         function addToPlayer(player, goalsScored, goalsAgainst) {
             player.goals += goalsScored;
             player.goalsAgainst += goalsAgainst;
-            player.goalDiff = goalsScored - goalsAgainst;
+            player.goalDiff += goalsScored - goalsAgainst;
 
             if (goalsScored > goalsAgainst) {
                 player.points += 3;
