@@ -1,9 +1,9 @@
 <h2>Spielergebnis erfassen</h2>
 
 <div class="clock" ng-show="!!$ctrl.match.matchData.played">
-    <span ng-show="$ctrl.timerActive">{{ $ctrl.remainingTime }}</span>
-    <span ng-show="$ctrl.isHalftime">Halbzeit</span>
-    <span ng-show="$ctrl.isEndResult">Endergebnis</span>
+    <span ng-show="$ctrl.timer.active">{{ $ctrl.timer.remainingTime }}</span>
+    <span ng-show="$ctrl.timer.isHalftime">Halbzeit</span>
+    <span ng-show="$ctrl.timer.isEndResult">Endergebnis</span>
 
 </div>
 
@@ -12,7 +12,7 @@
         <span class="name">{{ $ctrl.match.matchData.home.name }}</span>
         <span class="score">{{ $ctrl.match.matchData.home.goals }}</span>
         <div class="buttons" ng-hide="$ctrl.match.matchData.played != 'live'">
-            <button type="button" ng-click="$ctrl.match.addGoalToHome($ctrl.getCurrentTime())" class="add">+</button>
+            <button type="button" ng-click="$ctrl.match.addGoalToHome($ctrl.timer.getCurrentTime())" class="add">+</button>
             <button type="button" ng-click="$ctrl.match.removeGoalFromHome()" class="remove"
                     ng-disabled="$ctrl.match.matchData.home.goals == 0"
             >-</button>
@@ -23,7 +23,7 @@
         <span class="name">{{ $ctrl.match.matchData.away.name }}</span>
         <span class="score">{{ $ctrl.match.matchData.away.goals }}</span>
         <div class="buttons" ng-hide="$ctrl.match.matchData.played != 'live'">
-            <button type="button" ng-click="$ctrl.match.addGoalToAway($ctrl.getCurrentTime())" class="add">+</button>
+            <button type="button" ng-click="$ctrl.match.addGoalToAway($ctrl.timer.getCurrentTime())" class="add">+</button>
             <button type="button" ng-click="$ctrl.match.removeGoalFromAway()" class="remove"
                     ng-disabled="$ctrl.match.matchData.away.goals == 0">-</button>
         </div>
@@ -32,17 +32,22 @@
 
 <div class="page-actions">
     <button type="button"
-            ng-click="$ctrl.startMatch()"
+            ng-click="$ctrl.timer.startMatch()"
             ng-show="!$ctrl.match.matchData.played"
     >Spielstart</button>
 
     <button type="button"
-            ng-click="$ctrl.startSecondHalf()"
-            ng-show="$ctrl.isHalftime && $ctrl.currentHalf == 1"
+            ng-click="$ctrl.timer.finishFirstHalf()"
+            ng-show="$ctrl.match.matchData.played && !$ctrl.timer.isHalftime && $ctrl.timer.currentHalf == 1"
+    >1. Halbzeit beenden</button>
+
+    <button type="button"
+            ng-click="$ctrl.timer.startSecondHalf()"
+            ng-show="$ctrl.timer.isHalftime && $ctrl.timer.currentHalf == 1"
     >2. Halbzeit starten</button>
 
-    <button type="button" ng-click="$ctrl.finishMatch()"
-            ng-show="$ctrl.isEndResult && $ctrl.match.matchData.played == 'live'"
+    <button type="button" ng-click="$ctrl.timer.finishMatch()"
+            ng-show="$ctrl.match.matchData.played && !$ctrl.timer.isEndResult && $ctrl.timer.currentHalf == 2"
     >Spielende</button>
 
     <a

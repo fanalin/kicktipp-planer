@@ -36,14 +36,22 @@
                 <tr ng-repeat="match in group.matches">
                     <td>{{ match.home.name }}</td>
                     <td>{{ match.away.name }}</td>
-                    <td ng-if="!!match.played"
-                        ng-class="{ live : match.played == 'live' }"
-                    >{{ match.home.goals }} : {{ match.away.goals }}</td>
-                    <td ng-if="! match.played">
-                        <a
-                            href="#!/tournament/{{ $ctrl.tournament.id }}/capture-match/{{ group.id }}/{{ match.id }}"
-                            ng-show="$ctrl.currentUser.userInfo.referee"
+                    <td>
+                        <span ng-show="match.played" ng-class="{ live : match.played == 'live' }">
+                            {{ match.home.goals }} : {{ match.away.goals }}
+                        </span>
+
+                        <a href="#!/tournament/{{ $ctrl.tournament.id }}/ticker/{{ group.id }}/{{ match.id }}"
+                            ng-show="match.played"
+                        >Ticker!</a>
+
+                        <a href="#!/tournament/{{ $ctrl.tournament.id }}/capture-match/{{ group.id }}/{{ match.id }}"
+                            ng-show="$ctrl.currentUser.referee && ! match.played"
                         >Spielen!</a>
+
+                        <a ng-click="$ctrl.deleteResult(group.id, match.id)"
+                           ng-show="match.played && $ctrl.currentUser.tournamentAdmin"
+                        >x</a>
                     </td>
                 </tr>
             </tbody>
@@ -53,5 +61,5 @@
 
 <div class="page-actions">
     <a href="#!/tournament/{{ $ctrl.tournament.id }}/edit"
-       ng-show="$ctrl.currentUser.userInfo.tournamentAdmin">Turnier bearbeiten</a>
+       ng-show="$ctrl.currentUser.tournamentAdmin">Turnier bearbeiten</a>
 </div>

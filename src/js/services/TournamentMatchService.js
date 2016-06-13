@@ -26,35 +26,16 @@
                 return;
             }
             firebase.database().ref(matchKey + '/played').set('live');
+            addTickerEntry(0, 'start');
         };
 
-        function addTickerEntry(time, type) {
-            var entry = {
-                type: type,
-                time : time
-            };
-            var tickerKey = firebase.database().ref(matchKey).child('ticker').push().key;
-            entry.id = tickerKey;
-            firebase.database().ref(matchKey + '/ticker/' + tickerKey).set(entry);
-        }
+        this.finishFirstHalf = function(time) {
+            addTickerEntry(time, 'finish-first-half');
+        };
 
-        function removeLastTickerEntryOfType(type) {
-            var entries = [];
-            angular.forEach(that.matchData.ticker, function(entry) {
-                if (entry.type != type) {
-                    return;
-                }
-
-                entries.push(entry);
-            });
-
-            entries.sort(function(e1, e2) {
-               return e1.time - e2.time;
-            });
-
-            var toRemove = entries.pop();
-            firebase.database().ref(matchKey + '/ticker/' + toRemove.id).remove();
-        }
+        this.startSecondHalf = function(time) {
+            addTickerEntry(time, 'start-second-half');
+        };
 
         this.finishMatch = function(time) {
             firebase.database().ref(matchKey + '/played').set('finished');
@@ -99,9 +80,34 @@
             removeLastTickerEntryOfType('goal-away');
         };
 
-        this.markHalftime = function(time) {
-            addTickerEntry(time, 'halftime');
-        };
+        function addTickerEntry(time, type) {
+            var entry = {
+                type: type,
+                time : time,
+                logTime : Math.floor(Date.now() / 1000)
+            };
+            var tickerKey = firebase.database().ref(matchKey).child('ticker').push().key;
+            entry.id = tickerKey;
+            firebase.database().ref(matchKey + '/ticker/' + tickerKey).set(entry);
+        }
+
+        function removeLastTickerEntryOfType(type) {
+            var entries = [];
+            angular.forEach(that.matchData.ticker, function(entry) {
+                if (entry.type != type) {
+                    return;
+                }
+
+                entries.push(entry);
+            });
+
+            entries.sort(function(e1, e2) {
+                return e1.time - e2.time;
+            });
+
+            var toRemove = entries.pop();
+            firebase.database().ref(matchKey + '/ticker/' + toRemove.id).remove();
+        }
 
         function addToPlayer(player, goalsScored, goalsAgainst) {
             player.goals += goalsScored;

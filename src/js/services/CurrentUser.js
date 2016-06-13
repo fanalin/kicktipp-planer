@@ -5,9 +5,7 @@
         /**
          * the object holding the current user-info
          */
-        var currentUserReference = {
-            userInfo : null
-        };
+        var currentUser = {};
 
         /**
          * the firebase reference while listening to auth changes.
@@ -26,11 +24,17 @@
             if (user) {
                 registerUserInfoListener(user.uid);
             } else {
-                currentUserReference.userInfo = null;
+                clearUserInfo();
             }
         });
 
-        return currentUserReference;
+        return currentUser;
+
+        function clearUserInfo() {
+            angular.forEach(currentUser, function(val, key) {
+                delete currentUser[key];
+            });
+        }
 
         function registerUserInfoListener(uid) {
             // detach old listeners
@@ -40,7 +44,8 @@
 
             currentUserRef = firebase.database().ref('/userinfo/' + uid);
             currentUserRef.on('value', function (userSnapshot) {
-                currentUserReference.userInfo = userSnapshot.val();
+                clearUserInfo();
+                angular.merge(currentUser, userSnapshot.val());
                 $rootScope.safeApply();
             });
         }
