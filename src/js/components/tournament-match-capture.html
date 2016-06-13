@@ -41,7 +41,7 @@
             ng-show="$ctrl.isHalftime && $ctrl.currentHalf == 1"
     >2. Halbzeit starten</button>
 
-    <button type="button" ng-click="$ctrl.match.finishMatch()"
+    <button type="button" ng-click="$ctrl.finishMatch()"
             ng-show="$ctrl.isEndResult && $ctrl.match.matchData.played == 'live'"
     >Spielende</button>
 

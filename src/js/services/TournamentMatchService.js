@@ -56,8 +56,9 @@
             firebase.database().ref(matchKey + '/ticker/' + toRemove.id).remove();
         }
 
-        this.finishMatch = function() {
+        this.finishMatch = function(time) {
             firebase.database().ref(matchKey + '/played').set('finished');
+            addTickerEntry(time, 'end');
             matchRef.off();
             recalculateStandings();
         };
@@ -96,6 +97,10 @@
 
             // remove ticker entry for last foal from away player
             removeLastTickerEntryOfType('goal-away');
+        };
+
+        this.markHalftime = function(time) {
+            addTickerEntry(time, 'halftime');
         };
 
         function addToPlayer(player, goalsScored, goalsAgainst) {

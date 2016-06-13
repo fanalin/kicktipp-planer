@@ -7,7 +7,7 @@ angular
             function ($attrs, tournamentMatchRepository, $location, $interval) {
             var that = this;
 
-            var halftimeLength = 300;
+            var halftimeLength = 5;
 
             that.tournamentId = $attrs.tournamentId;
             that.remainingTime = halftimeLength;
@@ -36,6 +36,7 @@ angular
 
             that.startSecondHalf = function() {
                 that.currentHalf = 2;
+                that.match.markHalftime(halftimeLength);
 
                 startTimer();
             };
@@ -65,8 +66,7 @@ angular
             }
 
             that.finishMatch = function() {
-                that.match.finishMatch();
-                $location.path('/tournament/' + that.tournamentId);
+                that.match.finishMatch(2 * halftimeLength);
             };
         } ]
     });
