@@ -1,10 +1,10 @@
 
 (function(angular, firebase) {
     var config = {
-        apiKey: "AIzaSyCbjZ0v15_9e-wlBYdp7g3nqkSNEfkDql8",
-        authDomain: "tippkick-planer.firebaseapp.com",
-        databaseURL: "https://tippkick-planer.firebaseio.com",
-        storageBucket: "",
+        apiKey: "AIzaSyABMFdONBwq1Tc-jlhS2cbYGGuZUg2Xuec",
+        authDomain: "tippkick-planer-test.firebaseapp.com",
+        databaseURL: "https://tippkick-planer-test.firebaseio.com",
+        storageBucket: "tippkick-planer-test.appspot.com",
     };
     firebase.initializeApp(config);
 

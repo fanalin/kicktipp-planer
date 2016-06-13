@@ -3,4 +3,5 @@ src/vendor
 .idea
 *.iml
 src/css
-.sass-cache
+.build-cache
+dist
