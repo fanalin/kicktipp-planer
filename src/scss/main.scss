@@ -80,13 +80,32 @@ tournament-login-google {
 
 @media (all and max-width: 640px) {
     tournament-header {
+
+        nav.collapsed {
+            width: 0;
+        }
+
         nav {
+            position: absolute;
+            top: 62px;
+            left: 0;
+            width: 150px;
+            height: 100vh;
+            transition: width 500ms;
+            background-color: #0275d8;
+            overflow: hidden;
+
             ul {
+                padding-left: 10px;
                 clear: both;
                 li {
                     display: block;
                     float: none;
                     margin-left: 0 !important; /* important to overwrite the li+li selector from bootstrap */
+                }
+
+                tournament-logout {
+                    float: none;
                 }
             }
         }
@@ -112,10 +131,6 @@ tournament-header {
         display: inline-block;
         vertical-align: bottom;
         font-size: 1.3em;
-    }
-
-    nav.collapsed {
-        display: none;
     }
 
     nav {
