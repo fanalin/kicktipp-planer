@@ -270,6 +270,10 @@ tournament-match-ticker {
         @extend .table-striped;
         @extend .table-hover;
     }
+
+    .timelog {
+        white-space: nowrap;
+    }
 }
 
 .page-actions {

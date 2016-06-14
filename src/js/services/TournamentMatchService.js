@@ -20,13 +20,13 @@
             that.matchData = snapshot.val();
         });
 
-        this.startMatch = function() {
+        this.startMatch = function(time) {
             // don't start match if it already began ('live') or is even finished ('finished')
             if (!! that.matchData.played) {
                 return;
             }
             firebase.database().ref(matchKey + '/played').set('live');
-            addTickerEntry(0, 'start');
+            addTickerEntry(time, 'start');
         };
 
         this.finishFirstHalf = function(time) {

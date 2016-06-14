@@ -1,7 +1,8 @@
 <h2>Spielergebnis erfassen</h2>
 
 <div class="clock" ng-show="!!$ctrl.match.matchData.played">
-    <span ng-show="$ctrl.timer.active">{{ $ctrl.timer.remainingTime }}</span>
+    <span ng-show="$ctrl.timer.active && $ctrl.timer.remainingTime > 0">{{ $ctrl.timer.remainingTime }}</span>
+    <span ng-show="$ctrl.timer.active && $ctrl.timer.remainingTime == 0">Nachspielzeit: {{ $ctrl.timer.extraTime }}</span>
     <span ng-show="$ctrl.timer.isHalftime">Halbzeit</span>
     <span ng-show="$ctrl.timer.isEndResult">Endergebnis</span>
 
