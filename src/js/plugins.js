@@ -33,3 +33,23 @@
     }
 }());
 
+// navigation toggle functionality
+(function() {
+    window.addEventListener('click', function(evt) {
+        if (! evt.target) {
+            return;
+        }
+
+        if (! evt.target.dataset.toggleTarget || ! evt.target.dataset.toggleClass) {
+            return;
+        }
+        var targetSelector = evt.target.dataset.toggleTarget;
+        var toggleTarget = document.querySelector(targetSelector);
+        if (! toggleTarget) {
+            return;
+        }
+
+        toggleTarget.classList.toggle(evt.target.dataset.toggleClass);
+    });
+})();
+

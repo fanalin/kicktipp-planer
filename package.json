@@ -15,7 +15,7 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "name": "KickTipp Planer",
+  "name": "tippkick-planer",
   "private": true,
   "version": "0.0.1"
 }

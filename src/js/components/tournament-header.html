@@ -1,15 +1,14 @@
 
 <div>
 
-<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navigation">
+<button class="navbar-toggler" type="button" data-toggle-target="#main-navigation" data-toggle-class="collapsed">
     &#9776;
 </button>
 <h1>Tippkick-Turnierplaner</h1>
 
-<nav  id="main-navigation">
+<nav  id="main-navigation" class="collapsed">
     <ul>
-
-        <li ng-hide="! $ctrl.user"><a href="#!/home">Turnierübersicht</a></li>
+        <li ng-hide="! $ctrl.user"><a href="#!/home">Start</a></li>
         <li><a href="#!/about">Impressum</a></li>
         <li><tournament-logout></tournament-logout></li>
     </ul>
