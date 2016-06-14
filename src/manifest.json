@@ -1,0 +1,30 @@
+{
+    "short_name": "TippKick-Planer",
+    "name": "Planer für TippKick-Turniere",
+    "icons": [
+        {
+            "src": "img/icon-48.png",
+            "type": "image/png",
+            "sizes": "48x48"
+        },
+        {
+            "src": "img/icon-96.png",
+            "type": "image/png",
+            "sizes": "96x96"
+        },
+        {
+            "src": "img/icon-144.png",
+            "type": "image/png",
+            "sizes": "144x144"
+        },
+        {
+            "src": "img/icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        }
+    ],
+    "background_color": "#0275d8",
+    "theme_color" :  "#0275d8",
+    "display": "standalone",
+    "start_url": "index.html?launcher=true"
+}
