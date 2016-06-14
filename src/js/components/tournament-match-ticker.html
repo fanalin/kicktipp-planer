@@ -9,7 +9,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="tickerEntry in $ctrl.match.ticker">
+        <tr ng-repeat="tickerEntry in $ctrl.match.ticker | orderObjectBy:'logTime'">
             <td class="timelog">{{ tickerEntry.logTime | timeFormatter }}</td>
             <td class="timelog">
                 <span>{{ tickerEntry.time.normalTime | playTimeFormatter }}</span>
