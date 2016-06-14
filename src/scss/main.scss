@@ -37,9 +37,6 @@ button {
 
 body > div[ng-view] {
     padding: 5px;
-
-    /* margin-bottom for a possible page-actions bar */
-    margin-bottom: 75px;
 }
 
 tournament-login {
@@ -175,22 +172,30 @@ tournament-overview {
     }
 
     div.tournaments {
+        display: flex;
+        flex-flow: wrap;
+        justify-content: center;
 
         div {
-            @include make-col-span(3);
-            list-style-type: none;
-            padding: 20px;
+            display: inline-block;
+
+            flex: 0 0 24%;
+            padding: 5px;
             border: 1px solid lightgrey;
             border-radius: 10px;
-            margin: 5px;
+            margin: 10px 5px;
         }
+    }
+
+    .player-name, .result {
+        white-space: nowrap;
     }
 
     table {
         @extend .table;
         @extend .table-striped;
         @extend .table-hover;
-
+        margin-bottom: 0;
     }
 }
 
@@ -259,11 +264,19 @@ tournament-match-capture {
     }
 }
 
+tournament-match-ticker {
+    table {
+        @extend .table;
+        @extend .table-striped;
+        @extend .table-hover;
+    }
+}
+
 .page-actions {
 
     @extend .nav;
     @extend .navbar;
-    @extend .navbar-fixed-bottom;
+
 
     padding: 10px;
     text-align: right;

@@ -1,0 +1,29 @@
+<h2>{{ $ctrl.match.home.name }} - {{ $ctrl.match.away.name }}</h2>
+<h3 ng-if="$ctrl.match.ticker">Spieltag: {{ $ctrl.getMatchDate() | dateFormatter }}</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Zeit</th>
+            <th>Spielzeit</th>
+            <th>Ereignis</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="tickerEntry in $ctrl.match.ticker">
+            <td>{{ tickerEntry.logTime | timeFormatter }}</td>
+            <td>{{ tickerEntry.time }}</td>
+            <td>
+                <span ng-show="tickerEntry.type == 'start'">Spielstart</span>
+                <span ng-show="tickerEntry.type == 'finish-first-half'">Ende der ersten Halbzeit</span>
+                <span ng-show="tickerEntry.type == 'start-second-half'">Beginn der zweiten Halbzeit</span>
+                <span ng-show="tickerEntry.type == 'end'">Spielende</span>
+                <span ng-show="tickerEntry.type == 'goal-home'">Tor {{ $ctrl.match.home.name }}</span>
+                <span ng-show="tickerEntry.type == 'goal-away'">Tor {{ $ctrl.match.away.name }}</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="page-actions">
+    <a href="#!/tournament/{{ $ctrl.tournamentId }}">Turnierübersicht</a>
+</div>
