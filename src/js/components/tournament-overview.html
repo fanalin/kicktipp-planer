@@ -37,9 +37,9 @@
                     <td class="player-name">{{ match.home.name }}</td>
                     <td class="player-name">{{ match.away.name }}</td>
                     <td>
-                        <a ng-show="match.played && ! match.ticker" ng-class="{ live : match.played == 'live' }" class="result">
+                        <span ng-show="match.played && ! match.ticker" ng-class="{ live : match.played == 'live' }" class="result">
                             {{ match.home.goals }} : {{ match.away.goals }}
-                        </a>
+                        </span>
 
                         <a href="#!/tournament/{{ $ctrl.tournament.id }}/ticker/{{ group.id }}/{{ match.id }}"
                            ng-show="match.played && match.ticker"
