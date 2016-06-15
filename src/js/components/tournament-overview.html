@@ -37,17 +37,21 @@
                     <td class="player-name">{{ match.home.name }}</td>
                     <td class="player-name">{{ match.away.name }}</td>
                     <td>
-                        <span ng-show="match.played" ng-class="{ live : match.played == 'live' }" class="result">
+                        <a ng-show="match.played && ! match.ticker" ng-class="{ live : match.played == 'live' }" class="result">
                             {{ match.home.goals }} : {{ match.away.goals }}
-                        </span>
+                        </a>
 
                         <a href="#!/tournament/{{ $ctrl.tournament.id }}/ticker/{{ group.id }}/{{ match.id }}"
-                            ng-show="match.played && match.ticker"
-                        >Ticker!</a>
+                           ng-show="match.played && match.ticker"
+                           ng-class="{ live : match.played == 'live' }"
+                           class="result">
+                            {{ match.home.goals }} : {{ match.away.goals }}
+                        </a>
 
                         <a href="#!/tournament/{{ $ctrl.tournament.id }}/capture-match/{{ group.id }}/{{ match.id }}"
-                            ng-show="$ctrl.currentUser.referee && ! match.played"
-                        >Spielen!</a>
+                            ng-show="$ctrl.currentUser.referee && match.played != 'finished'"
+                           title="Spielleitung"
+                        >⚽</a>
 
                         <a ng-click="$ctrl.deleteResult(group.id, match.id)"
                            ng-show="match.played && $ctrl.currentUser.tournamentAdmin"

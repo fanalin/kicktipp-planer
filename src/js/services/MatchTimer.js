@@ -16,98 +16,140 @@
 
         var that = this;
 
-        that.isHalftime = false;
-        that.isEndResult = false;
+        that.isActive = function() {
+            return that.isFirstHalf() || that.isSecondHalf();
+        };
 
-        that.active = false;
-        that.remainingTime = 0;
-        that.currentHalf = 1;
-        that.currentTimer = null;
-        that.extraTime = 0;
-        that.matchStarted = false;
+        that.isMatchStarted = function() {
+            return !! getTickerEntry('start');
+        };
 
+        that.isFirstHalf = function() {
+            // first half is when match is started and halftime is not reached
+            return that.isMatchStarted() && ! getTickerEntry('finish-first-half');
+        };
+
+        that.isHalftime = function() {
+            // halftime: first half finished, second half not kicked off
+            return getTickerEntry('finish-first-half') && ! getTickerEntry('start-second-half');
+        };
+
+        that.isSecondHalf = function() {
+            return getTickerEntry('start-second-half') && ! getTickerEntry('end');
+        };
+
+        that.isEndResult = function() {
+            return !! getTickerEntry('end');
+        };
+
+        that.isMatchInNormalTime = function() {
+            return that.isActive() && that.currentTime.extraTime == 0;
+        };
+
+        that.isMatchInExtraTime = function() {
+            return that.isActive() && that.currentTime.extraTime > 0;
+        };
+
+        /* remove from here on */
         that.startMatch = function() {
-            match.startMatch(that.getCurrentTime());
-
-            that.matchStarted = true;
-            that.currentHalf = 1;
-            that.extraTime = 0;
-            that.remainingTime = config.halftimeLength;
-
-            startTimer();
+            match.startMatch(that.currentTime);
         };
 
         that.finishFirstHalf = function() {
-            that.isHalftime = true;
-            finishTimer();
-            match.finishFirstHalf(this.getCurrentTime());
+            match.finishFirstHalf(that.currentTime);
         };
 
         that.startSecondHalf = function() {
-            that.currentHalf = 2;
-            that.isHalftime = false;
-            that.extraTime = 0;
-            that.remainingTime = config.halftimeLength;
-            match.startSecondHalf(that.getCurrentTime());
-
-            startTimer();
+            /*
+             Prevent small UI glitch.
+             The glitch is following: the second half gets started, and for a small duration the
+             extraTime of the first half gets displayed (until the currentTime gets updated).
+             */
+            tickerCache['start-second-half'] = {
+                logTime : Math.floor(Date.now() / 1000)
+            };
+            that.currentTime = getCurrentTime();
+            match.startSecondHalf(that.currentTime);
         };
 
         that.finishMatch = function() {
-            that.isEndResult = true;
-            finishTimer();
-            match.finishMatch(that.getCurrentTime());
+            match.finishMatch(that.currentTime);
         };
 
-        that.getCurrentTime = function() {
-            // special cases (when halftime/end of match were reached before
-            // time was up: halftime is always after halftimeLength, end of match
-            // is always 2*halftimeLength
-            if (that.isHalftime) {
-                return {
-                    normalTime: config.halftimeLength,
-                    extraTime: that.extraTime
-                };
+        that.getRemainingNormalTime = function() {
+            return config.halftimeLength - that.currentTime.normalTime;
+        };
+        /* remove from until here */
+
+        function getCurrentTime() {
+            if (! that.isMatchStarted()) {
+                return { normalTime: 0, extraTime: 0 };
             }
-            if (that.isEndResult) {
-                return {
-                    normalTime: 2*config.halftimeLength,
-                    extraTime: that.extraTime
-                };
+
+            if (that.isHalftime()) {
+                var startHalftime = getTickerEntry('finish-first-half');
+                var startMatch = getTickerEntry('start');
+                return getTimeFromTickerEntries(startMatch, startHalftime);
             }
-            if (!that.matchStarted) {
-                return {
-                    normalTime: 0,
-                    extraTime: 0
-                };
+            if (that.isEndResult()) {
+                var startSecondHalf = getTickerEntry('start-second-half');
+                var finishMatch = getTickerEntry('end');
+                return getTimeFromTickerEntries(startSecondHalf, finishMatch);
             }
-            var durInHalf = config.halftimeLength - that.remainingTime;
-            var durPreviousHalf = (that.currentHalf - 1) * config.halftimeLength;
+
+            var startEntry = getTickerEntry(that.isSecondHalf() ? 'start-second-half' : 'start');
+            var now = { logTime : Math.floor(Date.now() / 1000) };
+            return getTimeFromTickerEntries(startEntry, now);
+        }
+
+        function getTimeFromTickerEntries(startEntry, endEntry) {
+            var normalTime = endEntry.logTime - startEntry.logTime;
+            var extraTime = 0;
+            if (normalTime > config.halftimeLength) {
+                extraTime = normalTime - config.halftimeLength;
+                normalTime = config.halftimeLength;
+            }
+
             return {
-                normalTime: durInHalf + durPreviousHalf,
-                extraTime: that.extraTime
+                normalTime: normalTime,
+                extraTime: extraTime
             };
-        };
-
-        function startTimer() {
-            that.active = true;
-
-            that.currentTimer = $interval(function() {
-                if (that.remainingTime > 0) {
-                    that.remainingTime--;
-                } else {
-                    that.extraTime++;
-                }
-            }, 1000);
         }
 
-        function finishTimer() {
-            if (that.currentTimer) {
-                $interval.cancel(that.currentTimer);
+        var tickerCache = {};
+        /**
+         * returns first ticker entry with given type
+         * @param type the type to find
+         * @returns TickerEntry
+         */
+        function getTickerEntry(type) {
+            if (tickerCache[type] != undefined) {
+                return tickerCache[type];
+            }
+            if (! match.matchData || ! match.matchData.ticker) {
+                return undefined;
             }
 
-            that.active = false;
+            tickerCache[type] = undefined;
+
+            for (var key in match.matchData.ticker) {
+                if (match.matchData.ticker.hasOwnProperty(key)) {
+                    var tickerEntry = match.matchData.ticker[key];
+                    if (tickerEntry.type == type) {
+                        tickerCache[type] = tickerEntry;
+                    }
+                }
+            }
+
+            return tickerCache[type];
         }
+
+        function timeTick() {
+            that.currentTime = getCurrentTime();
+        }
+
+        that.currentTime = getCurrentTime();
+        $interval(timeTick, 1000);
     }
 
 })(angular.module('tippkick-planer-app'));
