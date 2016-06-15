@@ -54,7 +54,7 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        src: ['src/404.html', 'src/*.png', 'src/*.png', 'src/*.ico', 'src/service-worker.js'],
+                        src: ['src/404.html', 'src/img/*.png', 'src/*.ico', 'src/service-worker.js', 'src/manifest.json'],
                         dest: 'dist/'
                     },
                     {
