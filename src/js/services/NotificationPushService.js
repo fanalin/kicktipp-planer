@@ -17,14 +17,19 @@
                 method : 'POST',
                 url : 'https://android.googleapis.com/gcm/send',
                 headers : {
-                    "Authorization": "key=AIzaSyABMFdONBwq1Tc-jlhS2cbYGGuZUg2Xuec",
+                    "Authorization": "key=AIzaSyDfmiduq723jaBURj-zqcFEgAGPdVW3Au0",
                     "Content-Type": "application/json"
                 },
                 data : {
                     "registration_ids" : subscriptions,
                     "data" : payload
                 }
-            }).then(console.log, console.log);
+            }).then(function(obj) {
+                console.log(obj);
+            }, function(obj) {
+                console.log(obj);
+            }
+            );
         }
 
         function notifyMatchStart(tournamentId, groupId, matchId) {
