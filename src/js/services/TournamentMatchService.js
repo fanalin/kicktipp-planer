@@ -1,14 +1,14 @@
 (function(mod) {
 
-    mod.factory('tournamentMatchRepository', ['firebase', function (firebase) {
+    mod.factory('tournamentMatchRepository', ['notificationPush', 'firebase', function (notificationPush, firebase) {
         return {
             get : function(tournamentId, groupId, matchId) {
-                return new Match(firebase, tournamentId, groupId, matchId);
+                return new Match(notificationPush, firebase, tournamentId, groupId, matchId);
             }
         }
     }]);
 
-    function Match(firebase, tournamentId, groupId, matchId) {
+    function Match(notificationPush, firebase, tournamentId, groupId, matchId) {
         var that = this;
 
         var matchKey = '/tournaments/' + tournamentId
@@ -27,6 +27,7 @@
             }
             firebase.database().ref(matchKey + '/played').set('live');
             addTickerEntry(time, 'start');
+            notificationPush.notifyMatchStart(tournamentId, groupId, matchId);
         };
 
         this.finishFirstHalf = function(time) {
