@@ -60,15 +60,15 @@
                 fbGroups[group.id] = {
                     id : group.id,
                     name : group.name,
-                    players : getPlayers(group),
-                    matches : createMatchesForGroup(group)
+                    players : getPlayers(tournament, group),
+                    matches : createMatchesForGroup(tournament, group)
                 };
             });
             return fbGroups;
         };
 
-        var getPlayers = function(group) {
-            var playersRef = firebase.database().ref('/tournaments/' + group.tournament.id + '/groups/' + group.id).child('players');
+        var getPlayers = function(tournament, group) {
+            var playersRef = firebase.database().ref('/tournaments/' + tournament.id + '/groups/' + group.id).child('players');
             var fbPlayers = {};
             angular.forEach(group.players, function(player) {
                if (! player.id) {
@@ -105,8 +105,8 @@
             };
         };
 
-        var createMatchesForGroup = function(group) {
-            var matchesRef = firebase.database().ref('/tournaments/' + group.tournament.id + '/groups/' + group.id ).child('matches');
+        var createMatchesForGroup = function(tournament, group) {
+            var matchesRef = firebase.database().ref('/tournaments/' + tournament.id + '/groups/' + group.id).child('matches');
             var fbMatches = {};
             for (var i = 0, len = group.players.length; i < len; ++i) {
                 var homePlayer = group.players[i];
